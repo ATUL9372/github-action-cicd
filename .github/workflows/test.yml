@@ -30,5 +30,7 @@ jobs:
         run: sudo dpkg -i trivy_0.17.2_Linux-64bit.deb
       - name: trivy scan repo
         run: trivy repo https://github.com/ATUL9372/github-action-cicd.git
-      - name: trying to fail
-        run: exit 1
+      #- name: trying to fail
+       # run: exit 1
+      - name: RAM check
+        run: free -h
