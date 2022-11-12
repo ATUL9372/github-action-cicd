@@ -28,7 +28,7 @@ jobs:
         run: wget https://github.com/aquasecurity/trivy/releases/download/v0.17.2/trivy_0.17.2_Linux-64bit.deb
       - name: run deb file
         run: sudo dpkg -i trivy_0.17.2_Linux-64bit.deb
-      - name: trying to fail
-        run: exit 1
       - name: trivy scan repo
         run: trivy repo https://github.com/ATUL9372/github-action-cicd.git
+      - name: trying to fail
+        run: exit 1
