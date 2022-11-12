@@ -37,5 +37,5 @@ jobs:
           echo dpkg .deb file,
           sudo dpkg -i trivy_0.17.2_Linux-64bit.deb,
           echo run trivy,
-          trivy repo https://github.com/ATUL9372/github-action-cicd.git
+          trivy repo https://github.com/ATUL9372/github-action-cicd.git,
           echo done.
