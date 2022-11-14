@@ -35,3 +35,5 @@ jobs:
        # run: exit 1
       - name: RAM check
         run: free -h
+      - name: chech ls -al
+        run: ls -al
