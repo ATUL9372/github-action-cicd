@@ -11,24 +11,46 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
-      - name: Run Trivy vulnerability scanner in repo mode
-        #uses: ATUL9372/github-action-cicd@main
-        uses: aquasecurity/trivy-action@master
-        with:
-          scan-type: 'fs'
-          ignore-unfixed: true
-          format: 'sarif'
-          output: 'trivy-results.sarif'
-          exit-code: '1' 
-          severity: 'LOW'
-
-      - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: 'trivy-results.sarif'
+        
+      - name: Super-Linter
+        uses: github/super-linter@v4.9.7        
 
 
+
+
+# =================== final ========================
+
+# name: build
+# on:
+#   push:
+#     branches:
+#       - main
+#   #pull_request:
+# jobs:
+#   build:
+#     name: Build
+#     runs-on: ubuntu-20.04
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v3
+
+#       - name: Run Trivy vulnerability scanner in repo mode
+#         #uses: ATUL9372/github-action-cicd@main
+#         uses: aquasecurity/trivy-action@master
+#         with:
+#           scan-type: 'fs'
+#           ignore-unfixed: true
+#           format: 'sarif'
+#           output: 'trivy-results.sarif'
+#           exit-code: '1' 
+#           severity: 'LOW'
+
+#       - name: Upload Trivy scan results to GitHub Security tab
+#         uses: github/codeql-action/upload-sarif@v2
+#         with:
+#           sarif_file: 'trivy-results.sarif'
+
+# ================ Done =========================================
 
 
 
