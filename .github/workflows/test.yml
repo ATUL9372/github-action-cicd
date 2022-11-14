@@ -28,22 +28,40 @@ jobs:
         run: wget https://github.com/aquasecurity/trivy/releases/download/v0.17.2/trivy_0.17.2_Linux-64bit.deb
       - name: run deb file
         run: sudo dpkg -i trivy_0.17.2_Linux-64bit.deb
-      - name: trivy scan repo
-        run: trivy repo https://github.com/ATUL9372/github-action-cicd.git
+      
+      - name: trivy scanning repos.
+        uses: ATUL9372/github-action-cicd@main
+        with:
+          scan-type: 'repo'
+          scan-ref: '.'
+          format: json
+          exit-code: 1
+          severity: CRITICAL
+          
+        
+        
+        
+        
+        
+        
+        
+        
+      #- name: trivy scan repo
+        #run: trivy repo https://github.com/ATUL9372/github-action-cicd.git
         #trivy repo --no-progress --exit-code 0 https://github.com/ATUL9372/github-action-cicd.git
       #- name: trying to fail
        # run: exit 1
-      - name: trivy save output output.txt
-        run: |
-          echo "save output.txt"
-          trivy repo https://github.com/ATUL9372/github-action-cicd.git > output.txt
-          echo "pwd"
-          pwd
-          echo "ls -al"
-          ls -al
+#       - name: trivy save output output.txt
+#         run: |
+#           echo "save output.txt"
+#           trivy repo https://github.com/ATUL9372/github-action-cicd.git > output.txt
+#           echo "pwd"
+#           pwd
+#           echo "ls -al"
+#           ls -al
         
-      - name: grep output.txt
-        run: cat output.txt | grep 'LOW\|MEDIUM\|HIGH\|CRITICAL'
+      #- name: grep output.txt
+       # run: cat output.txt | grep 'LOW\|MEDIUM\|HIGH\|CRITICAL'
         
 #       - name: if condition find 
  
