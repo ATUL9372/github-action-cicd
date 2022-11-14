@@ -2,31 +2,29 @@ name: build
 on:
   push:
     branches:
-    - main
+      - main
   #pull_request:
 jobs:
   build:
     name: Build
     runs-on: ubuntu-20.04
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Run Trivy vulnerability scanner in repo mode
-      uses: ATUL9372/github-action-cicd@main
-      with:
-        scan-type: 'repo'
-        scan-ref: '.'
-        trivy-config: trivy-test1.yaml
+      - name: Run Trivy vulnerability scanner in repo mode
+        uses: ATUL9372/github-action-cicd@main
+        with:
+          scan-type: 'repo'
+          ignore-unfixed: true
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL'
 
-
-
-
-
-
-
-
-
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: 'trivy-results.sarif'
 
 
 
@@ -34,14 +32,32 @@ jobs:
 
 
 
+# ===================================================================
+
+#name: build
+#on:
+#  push:
+#    branches:
+#    - main
+  #pull_request:
+#jobs:
+ # build:
+   # name: Build
+  #  runs-on: ubuntu-20.04
+  #  steps:
+ #   - name: Checkout code
+  #    uses: actions/checkout@v3
+
+ #   - name: Run Trivy vulnerability scanner in repo mode
+  #    uses: ATUL9372/github-action-cicd@main
+ #     with:
+#        scan-type: 'repo'
+#        scan-ref: '.'
+#        trivy-config: trivy-test1.yaml
 
 
 
-
-
-
-
-
+# =========================================================================
 
 # name: CI
 
