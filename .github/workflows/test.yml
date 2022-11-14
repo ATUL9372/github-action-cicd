@@ -34,6 +34,7 @@ jobs:
         with:
           scan-type: 'repo'
           scan-ref: '.'
+          trivy-config: trivy-test.yaml
           format: json
           exit-code: 1
           severity: CRITICAL
