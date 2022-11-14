@@ -29,11 +29,23 @@ jobs:
       - name: run deb file
         run: sudo dpkg -i trivy_0.17.2_Linux-64bit.deb
       - name: trivy scan repo
-        run: time trivy --exit-code 1 --cache-dir .trivycache/ --severity CRITICAL --no-progress https://github.com/ATUL9372/github-action-cicd.git
+        run: trivy repo https://github.com/ATUL9372/github-action-cicd.git
         #trivy repo --no-progress --exit-code 0 https://github.com/ATUL9372/github-action-cicd.git
       #- name: trying to fail
        # run: exit 1
-      - name: RAM check
-        run: free -h
-      - name: chech ls -al
-        run: ls -al
+      - name: trivy save output output.txt
+        run: |
+          echo "save output.txt"
+          trivy repo https://github.com/ATUL9372/github-action-cicd.git > output.txt
+          echo "pwd"
+          pwd
+          echo "ls -al"
+          ls -al
+        
+      - name: grep output.txt
+        run: cat output.txt | grep 'LOW\|MEDIUM\|HIGH\|CRITICAL'
+        
+#       - name: if condition find 
+ 
+        
+
