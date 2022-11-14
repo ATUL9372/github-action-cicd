@@ -1,105 +1,44 @@
-name: build
-on:
-  push:
-    branches:
-      - main
-  #pull_request:
-jobs:
-  build:
-    name: Build
-    runs-on: ubuntu-20.04
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+name: CI
 
-      - name: Run Trivy vulnerability scanner in repo mode
+# Controls when the workflow will run
+on: push
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+#  push:
+#    branches: [ "main" ]
+#  pull_request:
+#    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  #workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      # Runs a single command using the runners shell
+      - name: install trivy wget
+        run: wget https://github.com/aquasecurity/trivy/releases/download/v0.17.2/trivy_0.17.2_Linux-64bit.deb
+      - name: run deb file
+        run: sudo dpkg -i trivy_0.17.2_Linux-64bit.deb
+      
+      - name: trivy scanning repos.
         uses: ATUL9372/github-action-cicd@main
+        #uses: trivy repo https://github.com/ATUL9372/github-action-cicd.git     
         with:
           scan-type: 'repo'
-          ignore-unfixed: true
-          format: 'sarif'
-          output: 'trivy-results.sarif'
-          severity: 'CRITICAL'
-
-      - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: 'trivy-results.sarif'
-
-
-
-
-
-
-
-# ===================================================================
-
-#name: build
-#on:
-#  push:
-#    branches:
-#    - main
-  #pull_request:
-#jobs:
- # build:
-   # name: Build
-  #  runs-on: ubuntu-20.04
-  #  steps:
- #   - name: Checkout code
-  #    uses: actions/checkout@v3
-
- #   - name: Run Trivy vulnerability scanner in repo mode
-  #    uses: ATUL9372/github-action-cicd@main
- #     with:
-#        scan-type: 'repo'
-#        scan-ref: '.'
-#        trivy-config: trivy-test1.yaml
-
-
-
-# =========================================================================
-
-# name: CI
-
-# # Controls when the workflow will run
-# on: push
-#   # Triggers the workflow on push or pull request events but only for the "main" branch
-# #  push:
-# #    branches: [ "main" ]
-# #  pull_request:
-# #    branches: [ "main" ]
-
-#   # Allows you to run this workflow manually from the Actions tab
-#   #workflow_dispatch:
-
-# # A workflow run is made up of one or more jobs that can run sequentially or in parallel
-# jobs:
-#   # This workflow contains a single job called "build"
-#   build:
-#     # The type of runner that the job will run on
-#     runs-on: ubuntu-latest
-
-#     # Steps represent a sequence of tasks that will be executed as part of the job
-#     steps:
-#       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-#       - uses: actions/checkout@v3
-
-#       # Runs a single command using the runners shell
-#       - name: install trivy wget
-#         run: wget https://github.com/aquasecurity/trivy/releases/download/v0.17.2/trivy_0.17.2_Linux-64bit.deb
-#       - name: run deb file
-#         run: sudo dpkg -i trivy_0.17.2_Linux-64bit.deb
-      
-#       - name: trivy scanning repos.
-#         uses: ATUL9372/github-action-cicd@main
-#         #uses: trivy repo https://github.com/ATUL9372/github-action-cicd.git     
-#         with:
-#           scan-type: 'repo'
-#           scan-ref: '.'
-#           trivy-config: trivy-test.yaml
-#           format: json
-#           exit-code: 1
-#           severity: CRITICAL
+          scan-ref: '.'
+          trivy-config: trivy-test.yaml
+          format: json
+          exit-code: 1
+          severity: CRITICAL
           
         
         
