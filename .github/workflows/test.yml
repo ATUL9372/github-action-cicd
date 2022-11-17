@@ -43,7 +43,7 @@ jobs:
       - name: Step 2 trivy json formate      
         run: trivy fs -f json -o my_trivy_artifacts.json .  
         
-      - name: Step 3 Download a Build Artifact
+      - name: Step 3 Upload a Build Artifact
         uses: actions/download-artifact@v3.0.1
 #         with:
 #           # Artifact name
@@ -57,36 +57,36 @@ jobs:
 #           # Artifact name
 # #           name: my_trivy_artifacts 
 #           path: my_trivy_artifacts 
-
-      - name: Step 4 Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@master
-        with:
-          scan-type: 'fs'
-          format: 'json'
-          output: 'trivy-results.json'
+################################################
+#       - name: Step 4 Run Trivy vulnerability scanner
+#         uses: aquasecurity/trivy-action@master
+#         with:
+#           scan-type: 'fs'
+#           format: 'json'
+#           output: 'trivy-results.json'
           
-      - name: Step 5 Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          checkout_path: 'trivy-results.json'
+#       - name: Step 5 Upload Trivy scan results to GitHub Security tab
+#         uses: github/codeql-action/upload-sarif@v2
+#         with:
+#           checkout_path: 'trivy-results.json'
                  
 
-      - name: Step 6 Run Trivy vulnerability scanner in repo mode
-        #uses: ATUL9372/github-action-cicd@main
-        uses: aquasecurity/trivy-action@master
-        with:
-          scan-type: 'fs'
-          ignore-unfixed: true
-          format: 'sarif'
-          output: 'trivy-results.sarif'
-          exit-code: '1' 
-          severity: 'HIGH,CRITICAL'
+#       - name: Step 6 Run Trivy vulnerability scanner in repo mode
+#         #uses: ATUL9372/github-action-cicd@main
+#         uses: aquasecurity/trivy-action@master
+#         with:
+#           scan-type: 'fs'
+#           ignore-unfixed: true
+#           format: 'sarif'
+#           output: 'trivy-results.sarif'
+#           exit-code: '1' 
+#           severity: 'HIGH,CRITICAL'
           
 
-      - name: Step 7 Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: 'trivy-results.sarif'
+#       - name: Step 7 Upload Trivy scan results to GitHub Security tab
+#         uses: github/codeql-action/upload-sarif@v2
+#         with:
+#           sarif_file: 'trivy-results.sarif'
           
 
 
