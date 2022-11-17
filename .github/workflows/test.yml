@@ -35,7 +35,7 @@ jobs:
         uses: actions/checkout@v3
         
       - name: Step 2 trivy json formate
-        run: trivy repo -f json -o my_trivy_artifacts.json .  
+        run: trivy fs -f json -o my_trivy_artifacts.json .  
         
       - name: Step 5 Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.1
