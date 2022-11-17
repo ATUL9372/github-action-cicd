@@ -47,7 +47,7 @@ jobs:
         uses: actions/upload-artifact@v3.1.1
         with:
           # Artifact name
-          name: my_trivy_artifacts # optional, default is artifac
+          name: my_trivy_artifacts.json # optional, default is artifac
           if-no-files-found: error # optional, default is warn
           retention-days: 1 # optional
 
