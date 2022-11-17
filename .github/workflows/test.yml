@@ -52,7 +52,7 @@ jobs:
         uses: actions/upload-artifact@v3.1.1
         with:
          name: outpu-json
-         path: /my_trivy_artifacts
+         path: my_trivy_artifacts.json
 #         with:
 #           # Artifact name
 #           name: my_trivy_artifacts # optional, default is artifac
