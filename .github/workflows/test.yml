@@ -45,6 +45,9 @@ jobs:
         
       - name: Step 3 Upload a Build Artifact
         uses: actions/download-artifact@v3.0.1
+        with:
+         name: outpu-json
+         path: /my_trivy_artifacts/
 #         with:
 #           # Artifact name
 #           name: my_trivy_artifacts # optional, default is artifac
