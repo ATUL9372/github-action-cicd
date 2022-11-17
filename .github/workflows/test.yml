@@ -34,7 +34,13 @@ jobs:
       - name: Step 1 Checkout code
         uses: actions/checkout@v3
         
-      - name: Step 2 trivy json formate
+      - name: Step 1.1 install trivy     
+        run: |
+          wget https://github.com/aquasecurity/trivy/releases/download/v0.18.3/trivy_0.18.3_Linux-64bit.deb
+          sudo dpkg -i trivy_0.18.3_Linux-64bit.deb     
+        
+        
+      - name: Step 2 trivy json formate      
         run: trivy fs -f json -o my_trivy_artifacts.json .  
         
       - name: Step 5 Upload a Build Artifact
