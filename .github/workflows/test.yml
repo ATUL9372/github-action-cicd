@@ -44,6 +44,9 @@ jobs:
           output: 'trivy-results.sarif'
           exit-code: '1' 
           severity: 'HIGH,CRITICAL'
+          
+      - name: trivy json formate
+        run: trivy repo -f json -o my_trivy_artifacts.json .  
 
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v2
