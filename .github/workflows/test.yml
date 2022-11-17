@@ -55,7 +55,8 @@ jobs:
         uses:  actions/upload-artifact@v3.1.1
         with:
           # Artifact name
-          name: my_trivy_artifacts 
+#           name: my_trivy_artifacts 
+          path: my_trivy_artifacts 
 
       - name: Step 3 Run Trivy vulnerability scanner in repo mode
         #uses: ATUL9372/github-action-cicd@main
