@@ -44,7 +44,7 @@ jobs:
         run: trivy fs -f json -o my_trivy_artifacts.json .  
         
       - name: Step 3 Upload a Build Artifact
-        uses: actions/download-artifact@v3.0.1
+        uses: actions/upload-artifact@v3.1.1
         with:
          name: outpu-json
          path: /my_trivy_artifacts/
