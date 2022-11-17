@@ -20,6 +20,7 @@
 
 # =================== final ========================
 
+
 name: build
 on:
   push:
@@ -34,68 +35,37 @@ jobs:
       - name: Step 1 Checkout code
         uses: actions/checkout@v3
         
-      - name: Step 1.1 install trivy     
+      - name: Step 2 install trivy     
         run: |
           wget https://github.com/aquasecurity/trivy/releases/download/v0.18.3/trivy_0.18.3_Linux-64bit.deb
           sudo dpkg -i trivy_0.18.3_Linux-64bit.deb     
+            
+      - name: Step 3 trivy json formate      
+        run: trivy fs -f json -o my_trivy_artifacts1.json .  
         
-        
-      - name: Step 2 trivy json formate      
-        run: trivy fs -f json -o my_trivy_artifacts.json .  
-        
-      - name: Step 2.22 trivy json formate      
-        run: |
-           pwd
-           ls -al
-        
-      - name: Step 3 Upload a Build Artifact
+      - name: Step 4 Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.1
         with:
          name: outpu-json
-         path: my_trivy_artifacts.json
-#         with:
-#           # Artifact name
-#           name: my_trivy_artifacts # optional, default is artifac
-# #           if-no-files-found: error # optional, default is warn
-# #           retention-days: 1 # optional
-
-#       - name: Step 5 upload a Build Artifact
-#         uses:  actions/upload-artifact@v3.1.1
-#         with:
-#           # Artifact name
-# #           name: my_trivy_artifacts 
-#           path: my_trivy_artifacts 
-################################################
-#       - name: Step 4 Run Trivy vulnerability scanner
-#         uses: aquasecurity/trivy-action@master
-#         with:
-#           scan-type: 'fs'
-#           format: 'json'
-#           output: 'trivy-results.json'
-          
-#       - name: Step 5 Upload Trivy scan results to GitHub Security tab
-#         uses: github/codeql-action/upload-sarif@v2
-#         with:
-#           checkout_path: 'trivy-results.json'
-                 
-
-#       - name: Step 6 Run Trivy vulnerability scanner in repo mode
-#         #uses: ATUL9372/github-action-cicd@main
-#         uses: aquasecurity/trivy-action@master
-#         with:
-#           scan-type: 'fs'
-#           ignore-unfixed: true
-#           format: 'sarif'
-#           output: 'trivy-results.sarif'
-#           exit-code: '1' 
-#           severity: 'HIGH,CRITICAL'
+         path: my_trivy_artifacts1.json
+         
+            
+      - name: Step 5 Run Trivy vulnerability scanner in repo mode
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          ignore-unfixed: true
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          exit-code: '1' 
+          severity: 'HIGH,CRITICAL'
           
 
-#       - name: Step 7 Upload Trivy scan results to GitHub Security tab
-#         uses: github/codeql-action/upload-sarif@v2
-#         with:
-#           sarif_file: 'trivy-results.sarif'
-          
+      - name: Step 6 Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: 'trivy-results.sarif'
+
 
 
         
