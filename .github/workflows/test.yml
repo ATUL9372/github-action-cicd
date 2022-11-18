@@ -43,6 +43,9 @@ jobs:
       - name: Step 3 trivy json formate      
         run: trivy fs -f json -o my_trivy_artifacts1.json .  
         
+      - name: Step 3.3 trivy json formate      
+        run: trivy repo .
+        
       - name: Step 4 Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.1
         with:
