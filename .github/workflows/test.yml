@@ -3,25 +3,6 @@ on:
   push:
     branches: [ "main" ]
     
-jobs:
-  build:
-    name: Build
-    runs-on: ubuntu-20.04
-    steps:
-      - name: Step 1 Checkout code
-        uses: actions/checkout@v3
-
-
-      - name: Step  Run Trivy vulnerability scanner in repo mode
-        uses: aquasecurity/trivy-action@master
-        with:
-          scan-type: 'fs'
-          ignore-unfixed: true
-          format: 'table'
-          output: 'trivy-results.txt'
-          exit-code: '1' 
-          severity: 'MEDIUM'
-
 # jobs:
 #   build:
 #     name: Build
@@ -29,6 +10,25 @@ jobs:
 #     steps:
 #       - name: Step 1 Checkout code
 #         uses: actions/checkout@v3
+
+
+#       - name: Step  Run Trivy vulnerability scanner in repo mode
+#         uses: aquasecurity/trivy-action@master
+#         with:
+#           scan-type: 'fs'
+#           ignore-unfixed: true
+#           format: 'table'
+#           output: 'trivy-results.txt'
+#           exit-code: '1' 
+#           severity: 'MEDIUM'
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Step 1 Checkout code
+        uses: actions/checkout@v3
         
         
 #       - name: Step 2 install trivy     
@@ -45,22 +45,28 @@ jobs:
 #       - name: Step 4 trivy txt formate      
 #         run: sudo trivy fs -o trivy-output.txt --security-checks vuln,secret,config .
         
-#       - name: Step 5 Upload a Build Artifact
-#         uses: actions/upload-artifact@v3.1.1
-#         with:
-#          name: Trivy-output-artifact 
-#          path: trivy-output.txt
+      - name: Step 2 Upload a Build Artifact
+        uses: actions/upload-artifact@v3.1.1
+        with:
+         name: Trivy-output-artifact 
+         path: trivy-output.txt
                        
-#       - name: Step 6 Run Trivy vulnerability scanner in repo mode
-#         uses: aquasecurity/trivy-action@master
-#         with:
-#           scan-type: 'fs'
-#           ignore-unfixed: true
-#           format: 'sarif'
-#           output: 'trivy-results.sarif'
-#           exit-code: '1' 
-#           severity: 'HIGH, CRITICAL'
- ==========================================================
+      - name: Step 3 Run Trivy vulnerability scanner in repo mode
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          ignore-unfixed: true
+          format: 'table'
+          output: 'trivy-results.txt'
+          exit-code: '1' 
+          severity: 'HIGH, CRITICAL'
+          
+      - name: Step 4 Upload a Build Artifact
+        uses: actions/upload-artifact@v3.1.1
+        with:
+         name: Trivy-output-artifact 
+         path: trivy-results.txt
+ #==========================================================
 # name: build
 # on:
 #   push:
