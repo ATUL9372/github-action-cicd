@@ -1,9 +1,9 @@
 name: build
 on:
   push:
-#   pull_request:
-    branches:
-      - main
+    branches: [ "main" ]
+    # Publish semver tags as releases.
+    tags: [ 'v*.*.*' ]
 jobs:
   build:
     name: Build
