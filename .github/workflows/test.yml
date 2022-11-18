@@ -1,3 +1,46 @@
+name: build
+on:
+  pull_request:
+    branches:
+      - main
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Step 1 Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Step 2 install trivy     
+        run: |
+          sudo apt-get install wget apt-transport-https gnupg lsb-release
+          wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+          echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
+          sudo apt-get update
+          sudo apt-get install trivy
+             
+      - name: Step 3. trivy scan vulnerability fs     
+        run:  trivy fs .
+            
+      - name: Step 4 trivy txt formate      
+        run: sudo trivy fs -o trivy-output.txt --security-checks vuln,secret,config .
+        
+      - name: Step 5 Upload a Build Artifact
+        uses: actions/upload-artifact@v3.1.1
+        with:
+         name: Trivy-output-artifact 
+         path: trivy-output.txt
+                       
+      - name: Step 6 Run Trivy vulnerability scanner in repo mode
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          ignore-unfixed: true
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          exit-code: '1' 
+          severity: 'HIGH, CRITICAL'
+ 
 # name: build
 # on:
 #   push:
@@ -21,47 +64,47 @@
 # =================== final ========================
 
 
-name: build
-on:
-  push:
-    branches:
-      - main
-  #pull_request:
-jobs:
-  build:
-    name: Build
-    runs-on: ubuntu-20.04
-    steps:
-      - name: Step 1 Checkout code
-        uses: actions/checkout@v3
+# name: build
+# on:
+#   push:
+#     branches:
+#       - main
+#   #pull_request:
+# jobs:
+#   build:
+#     name: Build
+#     runs-on: ubuntu-20.04
+#     steps:
+#       - name: Step 1 Checkout code
+#         uses: actions/checkout@v3
         
-      - name: Step 2 install trivy     
-        run: |
-          wget https://github.com/aquasecurity/trivy/releases/download/v0.18.3/trivy_0.18.3_Linux-64bit.deb
-          sudo dpkg -i trivy_0.18.3_Linux-64bit.deb     
+#       - name: Step 2 install trivy     
+#         run: |
+#           wget https://github.com/aquasecurity/trivy/releases/download/v0.18.3/trivy_0.18.3_Linux-64bit.deb
+#           sudo dpkg -i trivy_0.18.3_Linux-64bit.deb     
             
-      - name: Step 3 trivy json formate      
-        run: trivy fs -f json -o my_trivy_artifacts1.json .  
+#       - name: Step 3 trivy json formate      
+#         run: trivy fs -f json -o my_trivy_artifacts1.json .  
         
-      - name: Step 3.3 trivy json formate      
-        run: trivy fs .
+#       - name: Step 3.3 trivy json formate      
+#         run: trivy fs .
         
-      - name: Step 4 Upload a Build Artifact
-        uses: actions/upload-artifact@v3.1.1
-        with:
-         name: outpu-json
-         path: my_trivy_artifacts1.json
+#       - name: Step 4 Upload a Build Artifact
+#         uses: actions/upload-artifact@v3.1.1
+#         with:
+#          name: outpu-json
+#          path: my_trivy_artifacts1.json
          
             
-      - name: Step 5 Run Trivy vulnerability scanner in repo mode
-        uses: aquasecurity/trivy-action@master
-        with:
-          scan-type: 'fs'
-          ignore-unfixed: true
-          format: 'sarif'
-          output: 'trivy-results.sarif'
-          exit-code: '1' 
-          severity: 'HIGH,CRITICAL'
+#       - name: Step 5 Run Trivy vulnerability scanner in repo mode
+#         uses: aquasecurity/trivy-action@master
+#         with:
+#           scan-type: 'fs'
+#           ignore-unfixed: true
+#           format: 'sarif'
+#           output: 'trivy-results.sarif'
+#           exit-code: '1' 
+#           severity: 'HIGH,CRITICAL'
           
 
 #       - name: Step 6 Upload Trivy scan results to GitHub Security tab
