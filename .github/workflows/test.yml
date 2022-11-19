@@ -29,7 +29,7 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: 'fs'
-          image-ref: 'docker.io/my-organization/my-app:${{ github.sha }}'
+#           image-ref: 'docker.io/my-organization/my-app:${{ github.sha }}'
           format: 'table'
           output: 'trivy-results-fs'
           security-checks: vuln,secret,config
