@@ -21,14 +21,21 @@ jobs:
           image-ref: 'docker.io/my-organization/my-app:${{ github.sha }}'
           format: 'table'
           output: 'trivy-results'
+      #### with fs setting 
+          scan-type: 'fs'
+          security-checks: vuln,secret,config
+          severity: 'HIGH,CRITICAL'       
           
       - name: Step 3 Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.1
         if: always()        
         with:
          name: Trivy-output-artifact 
-         path: trivy-results        
-        
+         path: trivy-results
+ 
+          
+ 
+ # image-ref: 'docker.io/my-organization/my-app:${{ github.sha }}'
         
 #---------------------------------------------         
 #       - name: Step 2 Run Trivy vulnerability scanner in fs mode
