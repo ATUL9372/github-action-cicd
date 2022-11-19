@@ -9,48 +9,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Step 1 Checkout code
-        uses: actions/checkout@v3
-      - name: Build an image from Dockerfile
-        run: |
-          docker build -t docker.io/my-organization/my-app:${{ github.sha }} .
-          pwd
-          ls -al
-          
-      - name: Run Trivy vulnerability scanner
+        uses: actions/checkout@v3    
+         
+      - name: Step 2 Run Trivy vulnerability scanner in fs mode
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: 'docker.io/my-organization/my-app:${{ github.sha }}'
+          scan-type: 'fs,image'
+#           image-ref: 'docker.io/my-organization/my-app:${{ github.sha }}'
           format: 'table'
           output: 'trivy-results'
-#           exit-code: '1'
-          ignore-unfixed: true
-          vuln-type: 'os,library'
-          severity: 'CRITICAL,HIGH'
-          
+          exit-code: '1' 
+          severity: 'HIGH,CRITICAL'
+          security-checks: vuln,secret,config
+
       - name: Step 3 Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.1
         if: always()        
         with:
          name: Trivy-output-artifact 
-         path: trivy-results
-         
-#       - name: Step 2 Run Trivy vulnerability scanner in fs mode
-#         uses: aquasecurity/trivy-action@master
-#         with:
-#           scan-type: 'fs'
-# #           image-ref: 'docker.io/my-organization/my-app:${{ github.sha }}'
-#           format: 'table'
-#           output: 'trivy-results'
-#           exit-code: '1' 
-#           severity: 'HIGH,CRITICAL'
-#           security-checks: vuln,secret,config
-
-#       - name: Step 3 Upload a Build Artifact
-#         uses: actions/upload-artifact@v3.1.1
-#         if: always()        
-#         with:
-#          name: Trivy-output-artifact 
-#          path: trivy-results  
+         path: trivy-results  
 #========================================================================================
 # jobs:
 #   build:
