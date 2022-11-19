@@ -14,13 +14,13 @@ jobs:
         
       - name: Build an image from Dockerfile
         run: |
-          docker build -t trivy-docker-image-run:${{ github.sha }} .
+          docker build -t docker.io/my-organization/my-app:${{ github.sha }} .
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
           scan-ref: 'fs'
-          image-ref: 'trivy-docker-image-run:${{ github.sha }}'
+          image-ref: 'docker.io/my-organization/my-app:${{ github.sha }}'
           format: 'table'
           output: 'trivy-results-images-fs-trivy'
           security-checks: vuln,secret,config
