@@ -21,7 +21,7 @@ jobs:
           scan-ref: 'fs'
           image-ref: 'trivy-build-image-from-dockerfile:${{ github.sha }}'
           format: 'table'
-          output: 'trivy-resuls'
+          output: 'trivy-resul'
           security-checks: vuln,secret,config
           severity: 'HIGH,CRITICAL'
           exit-code: '1'
@@ -31,7 +31,7 @@ jobs:
         if: always()        
         with:
          name: Trivy-output-artifact-with-images-fs
-         path: trivy-results
+         path: trivy-result
 
 
  
