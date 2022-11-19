@@ -22,7 +22,8 @@ jobs:
           format: 'table'
           output: 'trivy-results'
           security-checks: vuln,secret,config
-          severity: 'HIGH,CRITICAL'       
+          severity: 'HIGH,CRITICAL'
+          exit-code: '1'
           
       - name: Step 3 Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.1
