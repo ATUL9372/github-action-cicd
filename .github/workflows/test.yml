@@ -15,9 +15,10 @@ jobs:
       - name: Step 2 Run Trivy vulnerability scanner in fs mode
         uses: aquasecurity/trivy-action@master
         with:
-          scan-type: 'fs'
+          #scan-type: 'fs'
+          scan-type: 'image'
           ignore-unfixed: true
-          image-ref: '.'
+#           image-ref: '.'
           format: 'table'
           output: 'trivy-results'
           exit-code: '1' 
