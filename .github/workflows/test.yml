@@ -11,14 +11,15 @@ jobs:
       - name: Step 1 Checkout code
         uses: actions/checkout@v3
 
+      - name: Build an image from Dockerfile
+        run: |
+          docker build -t docker.io/my-organization/my-app:${{ github.sha }} .
 
       - name: Step 2 Run Trivy vulnerability scanner in fs mode
         uses: aquasecurity/trivy-action@master
         with:
-          #scan-type: 'fs'
-          scan-type: 'image'
-          ignore-unfixed: true
-#           image-ref: '.'
+          scan-type: 'fs'
+          image-ref: 'docker.io/my-organization/my-app:${{ github.sha }}'
           format: 'table'
           output: 'trivy-results'
           exit-code: '1' 
