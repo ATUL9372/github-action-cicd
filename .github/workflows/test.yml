@@ -14,7 +14,7 @@ jobs:
         
       - name: Build an image from Dockerfile
         run: |
-          docker build -t docker.io/my-organization/my-app:${{ github.sha }} .
+          docker build -t trivy-docker-image-run:${{ github.sha }} .
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
@@ -22,7 +22,7 @@ jobs:
           scan-ref: 'fs'
           image-ref: 'docker.io/my-organization/my-app:${{ github.sha }}'
           format: 'table'
-          output: 'trivy-results-images-fs'
+          output: 'trivy-results-images-fs-trivy'
           security-checks: vuln,secret,config
           severity: 'HIGH,CRITICAL'
           exit-code: '1'
@@ -32,7 +32,7 @@ jobs:
         if: always()        
         with:
          name: Trivy-output-artifact-images-fs
-         path: trivy-results-images-fs
+         path: trivy-results-images-fs-trivy
 
  
           
