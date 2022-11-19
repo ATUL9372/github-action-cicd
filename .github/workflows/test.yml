@@ -21,8 +21,6 @@ jobs:
           image-ref: 'docker.io/my-organization/my-app:${{ github.sha }}'
           format: 'table'
           output: 'trivy-results'
-      #### with fs setting 
-          scan-type: 'fs'
           security-checks: vuln,secret,config
           severity: 'HIGH,CRITICAL'       
           
