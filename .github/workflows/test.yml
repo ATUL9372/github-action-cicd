@@ -8,6 +8,7 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
+
       - name: Step 1 Checkout code
         uses: actions/checkout@v3  
         
@@ -15,35 +16,23 @@ jobs:
         run: |
           docker build -t docker.io/my-organization/my-app:${{ github.sha }} .
 
-      - name: DOCKER IMAGE Run Trivy vulnerability scanner
+      - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
+          scan-ref: 'fs'
           image-ref: 'docker.io/my-organization/my-app:${{ github.sha }}'
           format: 'table'
-          output: 'trivy-results-docker-image'
+          output: 'trivy-results-images-fs'
           security-checks: vuln,secret,config
           severity: 'HIGH,CRITICAL'
-          # exit-code: '1
- 
-#       - name: FS Run Trivy vulnerability scanner
-#         uses: aquasecurity/trivy-action@master
-#         with:
-#           scan-type: 'fs'
-# #           image-ref: 'docker.io/my-organization/my-app:${{ github.sha }}'
-#           format: 'table'
-#           output: 'trivy-results-fs'
-#           security-checks: vuln,secret,config
-#           severity: 'HIGH,CRITICAL'
-#           exit-code: '1
-
+          exit-code: '1'
+          
       - name: Step 3 Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.1
         if: always()        
         with:
          name: Trivy-output-artifact-images-fs
-         path: |
-          trivy-results-docker-image
-          trivy-results-fs
+         path: trivy-results-images-fs
 
  
           
