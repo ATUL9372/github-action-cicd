@@ -17,6 +17,7 @@ jobs:
         with:
           scan-type: 'fs'
           ignore-unfixed: true
+          image-ref: '.'
           format: 'table'
           output: 'trivy-results'
           exit-code: '1' 
