@@ -4,6 +4,8 @@ name: build
 #     branches: [ "main" ]
 
 on:
+  release:
+    types: [published]
   push:
     branches: [ "main" ]
     # Publish semver tags as releases.
