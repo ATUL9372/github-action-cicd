@@ -36,7 +36,7 @@ jobs:
         with:
           scan-ref: 'fs'
 #           image-ref: 'trivy-docker-image-run:${{ github.sha }}'
-          image-ref: 'ghcr.io/atul9372/github-action-cicd'
+          image-ref: 'ghcr.io/atul9372/github-action-cicd:latest'
           format: 'table'
           output: 'trivy-results-images-fs-trivy'
           security-checks: vuln,secret,config
