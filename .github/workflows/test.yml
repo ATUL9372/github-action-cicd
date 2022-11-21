@@ -12,15 +12,15 @@ jobs:
       - name: Step 1 Checkout code
         uses: actions/checkout@v3  
         
-      - name: Build an image from Dockerfile
-        run: |
-          docker build -t trivy-docker-image-run:${{ github.sha }} .
+#       - name: Build an image from Dockerfile
+#         run: |
+#           docker build -t trivy-docker-image-run:${{ github.sha }} .
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
           scan-ref: 'fs'
-          image-ref: 'trivy-docker-image-run:${{ github.sha }}'
-#           image-ref: 'akk'
+#           image-ref: 'trivy-docker-image-run:${{ github.sha }}'
+          image-type: 'akk'
           format: 'table'
           output: 'trivy-results-images-fs-trivy'
           security-checks: vuln,secret,config
